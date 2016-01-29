@@ -3,7 +3,7 @@ require_relative "fight_club/arena"
 require_relative "fight_club/config"
 
 module FightClub
-  WORKING_DIR = "#{Dir.pwd}/repos"
+  WORKING_DIR = "#{FightClub.config.repos_directory}/repos"
 
   class << self
     attr_writer :config

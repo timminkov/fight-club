@@ -29,6 +29,7 @@ FightClub.configure do |config|
   config.repo_name = 'public-repo' # the repo name alone
   config.uri = 'git@github.com:baxterthehacker/public-repo.git' # the URI to use to clone the repo
   config.master_branch = 'master' # what branch to run fight club against
+  config.repos_directory = '/tmp' # where to store repos
 end
 ```
 
