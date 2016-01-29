@@ -1,7 +1,7 @@
 module FightClub
   class Repository
     def update(uri, name)
-      system("mkdir #{FightClub.working_dir}/#{name}") unless Dir.exists? "FightClub.working_dir/#{name}"
+      system("mkdir -p #{FightClub.working_dir}/#{name}") unless Dir.exists? "#{FightClub.working_dir}/#{name}"
 
       git = Git.open("#{FightClub.working_dir}/#{name}", :log => Logger.new(STDOUT))
 
