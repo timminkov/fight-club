@@ -3,8 +3,6 @@ require_relative "fight_club/arena"
 require_relative "fight_club/config"
 
 module FightClub
-  WORKING_DIR = "#{FightClub.config.repos_directory}/repos"
-
   class << self
     attr_writer :config
   end
@@ -21,7 +19,11 @@ module FightClub
     yield(config)
   end
 
+  def self.working_dir
+    "#{FightClub.config.repos_directory}/repos"
+  end
+
   def self.git_command
-    "git '--git-dir=#{FightClub::WORKING_DIR}/#{FightClub.config.repo_name}/.git' '--work-tree=#{FightClub::WORKING_DIR}/#{FightClub.config.repo_name}'"
+    "git '--git-dir=#{working_dir}/#{config.repo_name}/.git' '--work-tree=#{working_dir}/#{config.repo_name}'"
   end
 end

@@ -43,7 +43,7 @@ module FightClub
     end
 
     def git
-      @git ||= Git.open("#{FightClub::WORKING_DIR}/#{FightClub.config.repo_name}", log: Logger.new(STDOUT))
+      @git ||= Git.open("#{FightClub.working_dir}/#{FightClub.config.repo_name}", log: Logger.new(STDOUT))
     end
   end
 end

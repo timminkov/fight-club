@@ -1,16 +1,14 @@
 module FightClub
   class Repository
-    WORKING_DIR = "#{Dir.pwd}/repos"
-
     def update(uri, name)
-      system("mkdir #{WORKING_DIR}/#{name}") unless Dir.exists? "WORKING_DIR/#{name}"
+      system("mkdir #{FightClub.working_dir}/#{name}") unless Dir.exists? "FightClub.working_dir/#{name}"
 
-      git = Git.open("#{WORKING_DIR}/#{name}", :log => Logger.new(STDOUT))
+      git = Git.open("#{FightClub.working_dir}/#{name}", :log => Logger.new(STDOUT))
 
-      unless File.exists?("#{WORKING_DIR}/#{name}/.gitconfig")
+      unless File.exists?("#{FightClub.working_dir}/#{name}/.gitconfig")
         Logger.new(STDOUT).info "Cloning #{name}..."
 
-        git.clone(uri, name, :path => WORKING_DIR)
+        git.clone(uri, name, :path => FightClub.working_dir)
       end
 
       git.fetch
