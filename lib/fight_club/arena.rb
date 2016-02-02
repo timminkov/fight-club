@@ -1,12 +1,12 @@
-require 'git'
 require 'logger'
 require 'octokit'
 require 'httparty'
+require_relative 'git'
 require_relative 'config'
 require_relative 'commenter'
 require_relative 'repository'
+require_relative 'comparer'
 require_relative 'merger'
-require_relative 'rebaser'
 
 module FightClub
   class Arena
@@ -15,20 +15,25 @@ module FightClub
     end
 
     def start
-      Repository.new.update(FightClub.config.uri, FightClub.config.repo_name)
+      Repository.new.update(
+        FightClub.config.uri,
+        FightClub.config.repo_name,
+        "#{FightClub.config.repos_directory}/repos",
+        git
+      )
 
-      git.checkout("origin/#{base_pull["head"]["ref"]}")
+      git.checkout("#{base_pull["head"]["ref"]}")
 
       return unless base_pull["base"]["ref"] == FightClub.config.master_branch
 
-      return unless Rebaser.attempt_rebase(base_pull)
+      return unless Merger.attempt_merge(base_pull, git)
 
       git.reset_hard("origin/#{base_pull["head"]["ref"]}")
 
       pull_requests = client.pull_requests(FightClub.config.repo, :per_page => 200)
 
       pull_requests.each do |pr|
-        Merger.new(base_pull, pr, git).execute
+        Comparer.new(base_pull, pr, git).execute
       end
 
       true
@@ -43,7 +48,10 @@ module FightClub
     end
 
     def git
-      @git ||= Git.open("#{FightClub.working_dir}/#{FightClub.config.repo_name}", log: Logger.new(STDOUT))
+      @git ||= Git.new(
+        "#{FightClub.config.repos_directory}",
+        FightClub.config.repo_name,
+      )
     end
   end
 end

@@ -1,6 +1,7 @@
 module FightClub
   class Config
-    attr_accessor :repo, :oauth, :repo_name, :uri, :master_branch, :repos_directory
+    attr_accessor :repo, :oauth, :repo_name,
+      :uri, :master_branch, :repos_directory
 
     def initialize
       @repo = 'baxterthehacker/public-repo'
