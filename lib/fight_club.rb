@@ -5,7 +5,7 @@ require_relative "fight_club/config"
 
 module FightClub
   class << self
-    attr_writer :config, :log
+    attr_writer :config
   end
 
   def self.begin(pull_request)
@@ -14,10 +14,6 @@ module FightClub
 
   def self.config
     @config ||= Config.new
-  end
-
-  def self.log
-    @log ||= Hash.new { |hsh, key| hsh[key] = [] }
   end
 
   def self.configure
