@@ -1,7 +1,7 @@
 module FightClub
   class Commenter
     def self.comment(pr, message)
-      unless FightClub.comment_check.call(pr, message)
+      unless FightClub.config.comment_check.call(pr, message)
         HTTParty.post(
           pr["_links"]["comments"]["href"],
           body: {
@@ -14,7 +14,7 @@ module FightClub
           }
         )
 
-        FightClub.save_comment(pr, message)
+        FightClub.config.save_comment(pr, message)
         Logger.new(STDOUT).info "Left a comment on #{pr["number"]} with message: #{message}"
       end
     end
