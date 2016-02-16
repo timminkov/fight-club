@@ -14,7 +14,7 @@ module FightClub
           }
         )
 
-        FightClub.config.save_comment(pr, message)
+        FightClub.config.save_comment.call(pr, message)
         Logger.new(STDOUT).info "Left a comment on #{pr["number"]} with message: #{message}"
       end
     end
